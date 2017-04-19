@@ -1,4 +1,7 @@
-# api documentation for  [publish (v0.6.0)](https://github.com/cmanzana/node-publish)  [![npm package](https://img.shields.io/npm/v/npmdoc-publish.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-publish) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-publish.svg)](https://travis-ci.org/npmdoc/node-npmdoc-publish)
+# npmdoc-publish
+
+#### api documentation for  [publish (v0.6.0)](https://github.com/cmanzana/node-publish)  [![npm package](https://img.shields.io/npm/v/npmdoc-publish.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-publish) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-publish.svg)](https://travis-ci.org/npmdoc/node-npmdoc-publish)
+
 #### npm auto publishing of your modules
 
 [![NPM](https://nodei.co/npm/publish.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/publish)
