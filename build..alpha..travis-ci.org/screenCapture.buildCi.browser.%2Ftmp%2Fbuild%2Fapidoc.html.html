@@ -101,71 +101,6 @@
 
     </ol></li>
 
-    <li class="apidocModuleLi"><a href="#apidoc.module.publish.localPackage">module publish.localPackage</a><ol>
-
-        <li>
-
-            <a class="apidocElementLiA" href="#apidoc.element.publish.localPackage.localPackage">
-            function <span class="apidocSignatureSpan">publish.</span>localPackage
-            <span class="apidocSignatureSpan">(callback)</span>
-            </a>
-
-        </li>
-
-    </ol></li>
-
-    <li class="apidocModuleLi"><a href="#apidoc.module.publish.publish">module publish.publish</a><ol>
-
-        <li>
-
-            <a class="apidocElementLiA" href="#apidoc.element.publish.publish.publish">
-            function <span class="apidocSignatureSpan">publish.</span>publish
-            <span class="apidocSignatureSpan">(options, callback)</span>
-            </a>
-
-        </li>
-
-    </ol></li>
-
-    <li class="apidocModuleLi"><a href="#apidoc.module.publish.remoteVersion">module publish.remoteVersion</a><ol>
-
-        <li>
-
-            <a class="apidocElementLiA" href="#apidoc.element.publish.remoteVersion.remoteVersion">
-            function <span class="apidocSignatureSpan">publish.</span>remoteVersion
-            <span class="apidocSignatureSpan">(localPackage, callback)</span>
-            </a>
-
-        </li>
-
-    </ol></li>
-
-    <li class="apidocModuleLi"><a href="#apidoc.module.publish.shouldPublish">module publish.shouldPublish</a><ol>
-
-        <li>
-
-            <a class="apidocElementLiA" href="#apidoc.element.publish.shouldPublish.shouldPublish">
-            function <span class="apidocSignatureSpan">publish.</span>shouldPublish
-            <span class="apidocSignatureSpan">(options, localVersion, remoteVersion)</span>
-            </a>
-
-        </li>
-
-    </ol></li>
-
-    <li class="apidocModuleLi"><a href="#apidoc.module.publish.start">module publish.start</a><ol>
-
-        <li>
-
-            <a class="apidocElementLiA" href="#apidoc.element.publish.start.start">
-            function <span class="apidocSignatureSpan">publish.</span>start
-            <span class="apidocSignatureSpan">(tagName, callback)</span>
-            </a>
-
-        </li>
-
-    </ol></li>
-
 </ol></div>
 
 <div class="apidocSectionDiv">
@@ -338,203 +273,23 @@ if (err) {
         callback(err, npm);
     });
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
-    </ul>
-
-
-</div>
-
-<div class="apidocSectionDiv">
-<h1><a href="#apidoc.module.publish.localPackage" id="apidoc.module.publish.localPackage">module publish.localPackage</a></h1>
-
-
-    <h2>
-        <a href="#apidoc.element.publish.localPackage.localPackage" id="apidoc.element.publish.localPackage.localPackage">
-        function <span class="apidocSignatureSpan">publish.</span>localPackage
-        <span class="apidocSignatureSpan">(callback)</span>
-        </a>
-    </h2>
-    <ul>
-    <li>description and source-code<pre class="apidocCodePre">function localPackage(callback) {
-    try {
-        callback(null, JSON.parse(fs.readFileSync('./package.json')));
-    } catch (err) {
-        callback(err);
-    }
-}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
-    </ul>
-
-
-</div>
-
-<div class="apidocSectionDiv">
-<h1><a href="#apidoc.module.publish.publish" id="apidoc.module.publish.publish">module publish.publish</a></h1>
-
-
-    <h2>
-        <a href="#apidoc.element.publish.publish.publish" id="apidoc.element.publish.publish.publish">
-        function <span class="apidocSignatureSpan">publish.</span>publish
-        <span class="apidocSignatureSpan">(options, callback)</span>
-        </a>
-    </h2>
-    <ul>
-    <li>description and source-code<pre class="apidocCodePre">publish = function (options, callback) {
-    localPackage(function(err, pkg) {
-        if (err) {
-            callback('publish can only be performed from the root of npm modules (where the package.json resides)');
-        } else {
-            var localVersion = pkg.version;
-            if (localVersion == null) {
-                callback('you have not defined a version in your npm module, check your package.json');
-            }
-
-            remoteVersion(pkg, function(err, remoteVersion) {
-                if (err) {
-                    callback(err);
-                } else if (shouldPublish(options, localVersion, remoteVersion) &amp;&amp; !options.test) {
-                    if (isTravis()) {
-                        log.info('running in travis');
-                        var npmUser = npmUserCredentials();
-                        if (npmUser) {
-                            npmAddUser(npmUser, function(err) {
-                                if (err) {
-                                    callback('error while trying to add npm user in travis: ' + err);
-                                } else {
-                                    npmPublish(callback);
-                                }
-                            });
-                        } else {
-                            callback('npm user credentials not found, make sure NPM_USERNAME, NPM_PASSWORD and NPM_EMAIL environment
- variables are set');
-                        }
-                    } else {
-                        npmPublish(callback);
-                    }
-                }
-            });
-        }
-    });
-}</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-    });
+ Please report bugs!  https://github.com/cmanzana/node-publish/issues
+
+ */
+}.toString().split(/\n/).slice(1, -2).join('\n'));
+process.exit(0);
 }
-    });
-};
 
-
-function npmPublish(callback) {
-    npm.commands.<span class="apidocCodeKeywordSpan">publish</span>([], false, function (err, message) {
+publish.<span class="apidocCodeKeywordSpan">start</span>(options.tag, function(err) {
 if (err) {
-						log.error('publish failed:', message);
-    callback(err);
-} else {
-    log.info('published ok');
-    callback();
+    handleError(err);
 }
+
+publish.publish(options, function (err) {
+    if (err) {
+        handleError(err);
 ...</pre></li>
-    </ul>
-
-
-</div>
-
-<div class="apidocSectionDiv">
-<h1><a href="#apidoc.module.publish.remoteVersion" id="apidoc.module.publish.remoteVersion">module publish.remoteVersion</a></h1>
-
-
-    <h2>
-        <a href="#apidoc.element.publish.remoteVersion.remoteVersion" id="apidoc.element.publish.remoteVersion.remoteVersion">
-        function <span class="apidocSignatureSpan">publish.</span>remoteVersion
-        <span class="apidocSignatureSpan">(localPackage, callback)</span>
-        </a>
-    </h2>
-    <ul>
-    <li>description and source-code<pre class="apidocCodePre">function remoteVersion(localPackage, callback) {
-    npm.commands.view([localPackage.name, 'version'], true, function (err, message) {
-        if (err) {
-            if (err.code === 'E404') {
-                callback('You have not published yet your first version of this module: publish will do nothing\n' +
-                         'You must publish manually the first release of your module');
-            } else {
-                callback(err);
-            }
-        } else {
-            for (var remoteVersion in message) break;
-						if (remoteVersion) {
-            		callback(null, remoteVersion);
-						} else {
-								callback('No version of this package has yet been published for tag "' + npm.config.get('tag') + '".\n' +
-										     'You must publish manually the first release of your module');
-						}
-        }
-    });
-}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
-    </ul>
-
-
-</div>
-
-<div class="apidocSectionDiv">
-<h1><a href="#apidoc.module.publish.shouldPublish" id="apidoc.module.publish.shouldPublish">module publish.shouldPublish</a></h1>
-
-
-    <h2>
-        <a href="#apidoc.element.publish.shouldPublish.shouldPublish" id="apidoc.element.publish.shouldPublish.shouldPublish">
-        function <span class="apidocSignatureSpan">publish.</span>shouldPublish
-        <span class="apidocSignatureSpan">(options, localVersion, remoteVersion)</span>
-        </a>
-    </h2>
-    <ul>
-    <li>description and source-code<pre class="apidocCodePre">function shouldPublish(options, localVersion, remoteVersion) {
-    options = options || {};
-
-    log.info('Local version: ' + localVersion);
-    log.info('Published version: ' + remoteVersion);
-    if (semver.eq(remoteVersion, localVersion)) {
-        log.info('Your local version is the same as your published version: publish will do nothing');
-        return false;
-    } else if (semver.gt(remoteVersion, localVersion)) {
-        log.warn('Your local version is smaller than your published version: publish will do nothing');
-        return false;
-    } else if (containsOnVersion(options)) {
-        var diff = semver.diff(remoteVersion, localVersion);
-        if (!options['on-' + diff]) {
-            log.info('Your local version does not satisfy your --on-[major|minor|patch|build] options; publish will do nothing');
-            return false;
-        }
-    }
-		log.info('Defined criteria met; publish will release a new version');
-		return true;
-}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
-    </ul>
-
-
-</div>
-
-<div class="apidocSectionDiv">
-<h1><a href="#apidoc.module.publish.start" id="apidoc.module.publish.start">module publish.start</a></h1>
-
-
-    <h2>
-        <a href="#apidoc.element.publish.start.start" id="apidoc.element.publish.start.start">
-        function <span class="apidocSignatureSpan">publish.</span>start
-        <span class="apidocSignatureSpan">(tagName, callback)</span>
-        </a>
-    </h2>
-    <ul>
-    <li>description and source-code<pre class="apidocCodePre">start = function (tagName, callback) {
-		var loadOptions = {};
-		if (tagName) {
-				log.info('Using tag', tagName);
-				loadOptions.tag = tagName;
-		}
-    npm.load(loadOptions, function (err) {
-        callback(err, npm);
-    });
-}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
 
 
